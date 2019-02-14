@@ -23,12 +23,13 @@ function http(method,url,query,data,cb){
 	xmlhttp.send();
 }
 
+var DAYms = 1000*60*60*24;
+var HOURms = 1000*60*60;
 
 function getinfo()
 {
 	http("GET", "https://kajchdqo.api.lncld.net/1.1/classes/workTime", "", "",function(data){
-
-		console.log(data);
+		//console.log(data);
 		results = data.results;
 		var tbody = $("#workTimeTbody");
 		tbody.empty();
@@ -76,49 +77,156 @@ function getinfo()
 				tbodyData += "<td></td>";
 			}
 		    tbodyData += "</tr>";
-
-
-/*
-		    var newcellname=newRow.insertCell(count++);
-		    if(results[i].on){
-		    	var time = new Date(results[i].on.iso);
-		    	newcellname.innerHTML = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-			}else{
-				newcellname.innerHTML="";
-			}
-
-		    var newcellname=newRow.insertCell(count++);
-		    if(results[i].on){
-		    	//newcellname.innerHTML=results[i].on.iso.replace(/T/, ' ').replace(/\.[\d]{3}Z/,'');
-		    	//date = new Date(results[i].on.iso);
-		    	//newcellname.innerHTML = date.getHours() + ":" + date.getMinutes();
-		    	newcellname.innerHTML = new Date(results[i].on.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"");
-			}else{
-				newcellname.innerHTML="";
-			}
-		    var newcellname=newRow.insertCell(count++);
-		    if(results[i].off){
-		    	newcellname.innerHTML=new Date(results[i].off.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"");
-			}else{
-				newcellname.innerHTML="";
-			}
-
-			var newcellname=newRow.insertCell(count++);
-			if(results[i].off && results[i].on){
-			var time = (new Date(results[i].off.iso).getTime() - new Date(results[i].on.iso).getTime())/1000/60/60;
-			newcellname.innerHTML = time.toFixed(2);
-			}else
-			{
-				newcellname.innerHTML = "";
-			}
-			
-*/
 		}
-		//document.body.appendChild(table);
-
 		tbody.append(tbodyData);
 
+		playmap(data);
+
 	});
-
-
 }
+
+function playmap(data)
+{
+	var results = data.results;
+	//console.log(results);
+	var onData = [];
+	var offData = [];
+	var allData = [];
+	for (var i = 0; i < results.length; i++){
+		var temp = [];
+		if(results[i].on){
+		    var time = new Date(results[i].on.iso).getTime() + HOURms*8;
+		    	temp.push(time);
+		    	temp.push(time%DAYms);
+		}
+		onData.push(temp);
+
+		temp = [];
+		if(results[i].off){
+		    var time = new Date(results[i].off.iso).getTime() + HOURms*8;
+		    	temp.push(time);
+		    	temp.push(time%DAYms);
+		}
+		offData.push(temp);
+
+		temp = [];
+		if(results[i].off && results[i].on){
+		    var time = new Date(results[i].on.iso).getTime() + HOURms*8;
+		    var allTime = new Date(results[i].off.iso).getTime() - new Date(results[i].on.iso).getTime();
+		    	temp.push(time);
+		    	temp.push(allTime);
+		}
+		allData.push(temp);
+	}
+
+	//console.log(onData);
+	//console.log(offData);
+	//console.log(allData);
+
+	var chart = {
+      type: 'spline'      
+   }; 
+   var title = {
+      text: 'workTime'   
+   };
+   var subtitle = {
+   };
+   var xAxis = {
+      type: 'datetime',
+      dateTimeLabelFormats: { // don't display the dummy year
+         month: '%e. %b',
+         year: '%b'
+      },
+      title: {
+         text: 'Date'
+      }
+   };
+   var yAxis = {
+      title: {
+         text: '打卡时间'
+      },
+      tickPositions: [HOURms*6, HOURms*8, HOURms*10, HOURms*12, HOURms*18, HOURms*20, HOURms*21, HOURms*22, HOURms*24],
+      min: HOURms*8,
+      max: HOURms*9,
+      labels: {
+      	//step: 1,
+      	formatter:function(){
+      	if(this.value == HOURms*6) { 
+        	return "06:00";
+      	}
+      	else if(this.value == HOURms*8) { 
+        	return "08:00"; 
+      	}
+      	else if(this.value == HOURms*9) { 
+        	return "09:00"; 
+      	}
+      	else if(this.value == HOURms*10) { 
+        	return "10:00"; 
+      	}
+      	else if(this.value == HOURms*11) { 
+        	return "11:00"; 
+      	}
+      	else if(this.value == HOURms*12) { 
+        	return "12:00"; 
+      	}
+      	else if(this.value == HOURms*16) { 
+        	return "16:00"; 
+      	}
+      	else if(this.value == HOURms*18) { 
+        	return "18:00"; 
+      	}
+      	else if(this.value == HOURms*20) { 
+        	return "20:00"; 
+      	}
+      	else if(this.value == HOURms*21) { 
+        	return "21:00"; 
+      	}
+      	else if(this.value == HOURms*22) { 
+        	return "22:00"; 
+      	}
+      	else if(this.value == HOURms*24) { 
+        	return "24:00"; 
+      	}
+      	else { 
+        	return "0("+this.value+")";
+      	}
+    }
+  }
+   };
+   var tooltip = {
+      headerFormat: '<b>{series.name}</b><br>',
+      pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+   };
+   var plotOptions = {
+      spline: {
+         marker: {
+            enabled: true
+         }
+      }
+   };
+   var series= [{
+   	name:"on",
+   	data: onData
+   },
+   {
+   	name:"off",
+   	data: offData
+   },
+   {
+   	name:"all",
+   	data: allData
+   }
+   ];
+
+   var json = {};
+   json.chart = chart;
+   json.title = title;
+   json.subtitle = subtitle;
+   json.tooltip = tooltip;
+   json.xAxis = xAxis;
+   json.yAxis = yAxis;  
+   json.series = series;
+   json.plotOptions = plotOptions;
+   $('#container').highcharts(json);
+}
+
