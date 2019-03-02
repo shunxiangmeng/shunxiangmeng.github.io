@@ -88,13 +88,13 @@ function getinfo()
 			}
 
 		    if(results[i].on){
-		    	tbodyData += "<td>" + new Date(results[i].on.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"") + "</td>"
+		    	tbodyData += "<td>" + new Date(results[i].on.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"").replace(/\:00 GMT\+0800 \(CST\)/i,"") +"</td>"
 			}else{
 				tbodyData += "<td></td>";
 			}
 
 		    if(results[i].off){
-		    	tbodyData += "<td>" + new Date(results[i].off.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"") + "</td>"
+		    	tbodyData += "<td>" + new Date(results[i].off.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"").replace(/\:00 GMT\+0800 \(CST\)/i,"") + "</td>"
 			}else{
 				tbodyData += "<td></td>";
 			}
