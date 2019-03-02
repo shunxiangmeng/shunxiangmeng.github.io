@@ -88,6 +88,7 @@ function getinfo()
 			}
 
 		    if(results[i].on){
+          console.log(Date(results[i].on.iso).toTimeString());
 		    	tbodyData += "<td>" + new Date(results[i].on.iso).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"").replace(/\:00 GMT\+0800 \(CST\)/i,"") +"</td>"
 			}else{
 				tbodyData += "<td></td>";
@@ -353,13 +354,13 @@ function getWorkTimeData()
       }
 
       if(results[i].on){
-          tbodyData += "<td>" + new Date(results[i].on).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"") + "</td>"
+          tbodyData += "<td>" + new Date(results[i].on).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"").replace(/\:00 GMT\+0800 \(CST\)/i,"") + "</td>"
       }else{
         tbodyData += "<td></td>";
       }
 
       if(results[i].off){
-          tbodyData += "<td>" + new Date(results[i].off).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"") + "</td>"
+          tbodyData += "<td>" + new Date(results[i].off).toTimeString().replace(/\:00 GMT\+0800 \(中国标准时间\)/i,"").replace(/\:00 GMT\+0800 \(CST\)/i,"") + "</td>"
       }else{
         tbodyData += "<td></td>";
       }
@@ -474,9 +475,6 @@ function displaymap(data,avg)
          month: '%e. %b',
          year: '%b'
       },
-      title: {
-         text: 'Date'
-      }
    };
    var yAxis = {
       title: {
@@ -607,9 +605,6 @@ function displaymap(data,avg)
    };
    var xAxis = {
       type: 'datetime',
-      title: {
-         text: 'Date'
-      }
    };
 var yAxis = {
       title: {
