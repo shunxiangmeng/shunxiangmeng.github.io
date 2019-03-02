@@ -392,14 +392,13 @@ function displaymap(data,avg)
   var allData = [];
   var avgData = [];
 
-  //生成正太数组
+  //生成上班正太数组
   var zt = [];
   var interval = 1*MINms;
-  var startCount = 60 * 7.5;   //7.5hour
-  var stopCount = 60 * 9.5;   //9.5hour
+  var startCount = (HOURms/interval) * 7.5;   //7.5hour
+  var stopCount = (HOURms/interval) * 9.5;   //9.5hour
 
   var count = DAYms / interval;
-  
   for (var i = startCount; i <= stopCount; i++)
   {
     var tmp = [];
@@ -407,6 +406,21 @@ function displaymap(data,avg)
     tmp.push(0);
     zt.push(tmp);
   }
+
+  //生成下班正太数组
+  var clockOutData = [];
+  var interval_clockOut = 5*MINms;
+  var clockOutStartCount = (HOURms/interval_clockOut) * 18;   //18hour
+  var clockOutStopCount = (HOURms/interval_clockOut)  * 24;   //24hour
+  var count = DAYms / interval_clockOut;
+  for (var i = clockOutStartCount; i <= clockOutStopCount; i++)
+  {
+    var tmp = [];
+    tmp.push(i*interval_clockOut);  //时间
+    tmp.push(0);
+    clockOutData.push(tmp);
+  }
+
 
   for (var i = 0; i < results.length; i++)
   //for (var i = results.length-1; i >= 0; i--)
@@ -444,16 +458,26 @@ function displaymap(data,avg)
     }
     avgData.push(temp);
 
-        //增加正太数据数组
+    //增加正太数据数组
     if(results[i].on){
         var time = new Date(results[i].on).getTime() + HOURms*8;
         time = time%DAYms;
         qujian = Math.ceil(time / interval);  // 向上取整
         qujian = qujian - startCount;
-        if (qujian <= (stopCount-startCount)){
+        if (qujian >= 0 && qujian <= (stopCount-startCount)){
           zt[qujian][1] = zt[qujian][1] + 1;
         }
     }
+    //增加正太数据数组
+    if(results[i].off){
+        var time = new Date(results[i].off).getTime() + HOURms*8;
+        time = time%DAYms;
+        qujian = Math.ceil(time / interval_clockOut);  // 向上取整
+        qujian = qujian - clockOutStartCount;
+        if (qujian >= 0 &&  qujian <= (clockOutStopCount - clockOutStartCount)){
+          clockOutData[qujian][1] = clockOutData[qujian][1] + 1;
+        }
+    }  
   }
 
   //console.log(onData);
@@ -595,13 +619,13 @@ function displaymap(data,avg)
    json.plotOptions = plotOptions;
    $('#container').highcharts(json);
 
-   //-----画正太曲线图--------------------------------------------------------------------------
+   //-----上班打卡曲线图--------------------------------------------------------------------------
 
   var chart1 = {
       type: 'spline'      
    }; 
    var title1 = {
-      text: '正太图'   
+      text: '上班正太图'   
    };
    var xAxis = {
       type: 'datetime',
@@ -610,17 +634,12 @@ var yAxis = {
       title: {
          text: '打卡时间'
       },
-      tickPositions: [0, 5, 10, 15, 20],
-      min: 1,
-      max: 1000,
-
+      tickPositions: [0, 5, 10, 15, 20]
    };
    var tooltip = {
       headerFormat: '<b>打卡</b><br>',
-      //pointFormat: '{point.x:%y-%m-%d} {point.y:%h}',
       pointFormatter: function(){
         return this.y +"次<br>"+add0(parseInt(this.x/HOURms))+ ':' + add0((this.x%HOURms)/1000/60);
-        //return parseInt(this.y/HOURms) + ':' + (this.y%HOURms)/1000/60;
       }
    };
    var series= [{
@@ -638,6 +657,47 @@ var yAxis = {
    json.series = series;
    json.plotOptions = plotOptions;
    $('#container1').highcharts(json);
+
+  //-----下班打卡曲线图--------------------------------------------------------------------------
+  var chart1 = {
+      type: 'spline'      
+   }; 
+   var title1 = {
+      text: '下班正太图'   
+   };
+   var xAxis = {
+      type: 'datetime',
+   };
+var yAxis = {
+      title: {
+         text: '下班打卡次数'
+      },
+      tickPositions: [0, 5, 10, 15, 20]
+   };
+   var tooltip = {
+      headerFormat: '<b>打卡</b><br>',
+      //pointFormat: '{point.x:%y-%m-%d} {point.y:%h}',
+      pointFormatter: function(){
+        return this.y +"次<br>"+add0(parseInt(this.x/HOURms))+ ':' + add0((this.x%HOURms)/1000/60);
+        //return parseInt(this.y/HOURms) + ':' + (this.y%HOURms)/1000/60;
+      }
+   };
+   var series= [{
+      name: "下班打卡",
+      data: clockOutData
+     }
+   ];
+
+   var json = {};
+   json.chart = chart1;
+   json.title = title1;
+   json.tooltip = tooltip;
+   json.xAxis = xAxis;
+   json.yAxis = yAxis;  
+   json.series = series;
+   json.plotOptions = plotOptions;
+   $('#clockOut').highcharts(json);
+
 }
 
 
