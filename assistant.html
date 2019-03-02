@@ -8,30 +8,51 @@
   <script src="assistant/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
   <script src="assistant/js/highcharts.js"></script>
   <script src="assistant/js/assistant.js"></script>
+  <link rel="stylesheet" type="text/css" href="assistant/css/assistant.css"/> 
   <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
   });
   </script>
 </head>
-<body>
+<body onload = "getWorkTimeData()">
 
-	<p>日期:<input type="text" name="date" id="datepicker"/> </p>
+	<div>
+		<p>日期:<input type="text" name="date" id="datepicker" size="16px" value=""/> 
+		clock in:<input type="text" id="clockInTime" value="08:30" size="12px"/> 
+		clock out:<input type="text" id="clockOutTime" value="21:00" size="12px"/> 
+		<input type="button" name="date" id="addClockIn" value="add" onclick="addClockInTime()"/> </p>
+	</div>
+
 	<input type="button" name="date" id="get" value="get" onclick="getinfo()"/> 
+	<input type="button" name="date" id="get" value="getWorkTime" onclick="getWorkTimeData()"/> 
+	<div>
+	</div class="table">
 
-	<table>
+	<table class="table">
 		<thead>
 			<th>index</th>
+			<th>id</th>
 			<th>date</th>
-			<th>on</th>
-			<th>off</th>
+			<th>cIn</th>
+			<th>cOut</th>
 			<th>hours</th>
+			<th>avg</th>
 		</thead>
 		<tbody id="workTimeTbody">
 		</tbody>
 	</table>
+	</div>
 
-	<div id="container" style="width: 600px; height: 500px; margin: 0 auto"></div>
+	<div class="chart">
+		<div id="container1"></div>
+	</div>
+
+	<div class="chart">
+		<div id="container"></div>
+	</div>
+
+	</div>
 
 </body>
 </html>
