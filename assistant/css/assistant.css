@@ -1,0 +1,49 @@
+.add{
+
+}
+
+/*************workTime*******/
+/*时间表*/
+.table{
+	/*margin-left: 5px;*/
+	float:left;
+	width: 32%;
+
+}
+
+.chart{
+	float: right;
+	width: 65%;
+}
+
+
+
+
+/*footprint*/
+.footPrintMapDiv{
+	width: 60%;
+	height: 100%;
+	float: left;
+	margin: 0;
+}
+.footPrintInfoDiv{
+	width: 40%;
+	height: 100%;
+	float: right;
+	margin: 0;
+}
+.footPrintMap{
+	width: 96%;
+	height: 80%;
+	border:1px solid red;
+	float: left;
+	margin-left: 1%;
+	margin-top: 1%;
+}
+.footPrintInfo{
+	width: 100%;
+	height: 100%;
+	float: right;
+	margin-top: 1%;
+	/*border:1px solid red;*/
+}
