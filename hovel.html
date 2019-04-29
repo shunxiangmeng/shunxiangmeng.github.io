@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	html,body{height: 100%; width: 100%; margin:0;}
+	#allmap {overflow: hidden; font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=apk"></script>
+	<script src="hovel/av-min.js"></script>
+	<script src="hovel/hovel.js"></script>
+	<title>hovel</title>
+	<link rel="stylesheet" type="text/css" href="hovel/hovel.css"/> 
+</head>
+
+<body onload = "hovelInit()">
+	<div class="HovelMapDiv">
+		区域:
+		<select name="" > 
+			<option value="buxian">不限</option> 
+			<option value="jianggan">江干</option> 
+		</select>
+		价格:
+		<input type="text" id="price_min" value="" size="10px"/> 
+		<input type="text" id="price_max" value="" size="10px"/> 
+
+		<input type="button" id="addlocation" value="查询" onclick="queryHouses()"/> 
+		<div id="map" class="HovelMap"></div>
+	</div>
+</body>
+</html>
