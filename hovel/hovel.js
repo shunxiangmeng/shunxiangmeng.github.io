@@ -1,7 +1,7 @@
 
 
 var map;   //全局变量
-AV.init("id", "apk");
+AV.init("Pg4kWSIbKCCe1pQDanyNN2Rp-gzGzoHsz", "VpSJFNzHjC9MhuG2pUEq26cY");
 
 function hovelInit()
 {
