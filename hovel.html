@@ -10,22 +10,46 @@
 	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=HHVzCtlAyDjbKGGNUkv3C1pbgMi1wcxS"></script>
 	<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.13.0/dist/av-min.js"></script>
 	<script src="hovel/hovel.js"></script>
+	<script src="hovel/jquery.js"></script>
 	<title>hovel</title>
 	<link rel="stylesheet" type="text/css" href="hovel/hovel.css"/> 
+
+	<script>
+	$(document).ready(function(){
+		$("#query").click(function(){
+	    	var location = $('#localtion').val();
+	    	var min = $('#price_min').val();
+	    	var max = $('#price_max').val();
+	    	queryHouses(location, min, max);
+	  	});
+	});
+	</script>
+
+
 </head>
 
 <body onload = "hovelInit()">
 	<div class="HovelMapDiv">
 		区域:
-		<select name="" > 
-			<option value="buxian">不限</option> 
-			<option value="jianggan">江干</option> 
+		<select name="" id="localtion"> 
+			<option value="不限">不限</option> 
+			<option value="滨江">滨江</option> 
+			<option value="西湖">西湖</option> 
+			<option value="上城">上城</option> 
+			<option value="下城">下城</option> 
+			<option value="江干">江干</option> 
+			<option value="拱墅">拱墅</option> 
+			<option value="余杭">余杭</option> 
+			<option value="萧山">萧山</option> 
+			<option value="临安">临安</option> 
+			<option value="绍兴">绍兴</option> 
+			<option value="富阳">富阳</option> 
 		</select>
 		价格:
-		<input type="text" id="price_min" value="" size="10px"/> 
-		<input type="text" id="price_max" value="" size="10px"/> 
-
-		<input type="button" id="addlocation" value="查询" onclick="queryHouses()"/> 
+		<input type="text" id="price_min" value="1" size="10px"/> 
+		<input type="text" id="price_max" value="100000" size="10px"/> 
+		<input type="button" id="query" value="查 询" /> 
+		查询结果:<label id="querycount"></label>
 		<div id="map" class="HovelMap"></div>
 	</div>
 </body>
