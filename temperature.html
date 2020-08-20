@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>灶台没有关</title>
+    <link rel="stylesheet" href="assistant/js/jquery-ui-1.11.4/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="assistant/css/assistant.css"/> 
+    <script src="assistant/js/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+    <script src="assistant/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script src="assistant/js/assistant.js"></script>
+    <script src="assistant/js/temperature.js"></script>
+    <script>
+    function startGetTemperature(){
+        getTemperature();
+        self.setInterval('getTemperature()', 2000);
+      }
+    </script>
+    <style type="text/css">
+        #wrap {
+            color: red; 
+            display: flex; 
+            justify-content: center;
+        }
+        #temperature{
+            font-weight:800;
+            font-size:64px;
+        }
+        body {
+            margin: 10%;
+        }
+    </style>
+</head>
+
+<body onload="startGetTemperature()">
+    <!--
+    <div>
+        <input type="button" name="date" id="get" value="addtemp" onclick="addtemp()"/> 
+        <input type="button" name="date" id="get" value="gettemp" onclick="getTemperature()"/> 
+    </div>
+    -->
+    <div id="wrap">
+        <div > 温度：</div>
+        <div id="temperature"> </div>
+        <div>&#176C</div>
+    </div>
+
+    <div id="info">
+        <div id="isOpen">op</div>
+        <div id="hasPeople">peo</div>
+    </div>
+
+</body>
+</html>
