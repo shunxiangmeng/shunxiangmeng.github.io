@@ -13,7 +13,7 @@
     <script>
     function startGetTemperature(){
         getTemperature();
-        self.setInterval('getTemperature()', 200000);
+        self.setInterval('getTemperature()', 2000);
       }
     </script>
     <style type="text/css">
@@ -33,12 +33,12 @@
 </head>
 
 <body onload="startGetTemperature()">
-    
+    <!--
     <div>
         <input type="button" name="date" id="get" value="addtemp" onclick="addtemp()"/> 
         <input type="button" name="date" id="get" value="gettemp" onclick="getTemperature()"/> 
     </div>
-    
+    -->
     <div id="wrap">
         <div > 温度：</div>
         <div id="temperature"> </div>
