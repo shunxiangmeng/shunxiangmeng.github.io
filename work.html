@@ -11,19 +11,41 @@
 		var oft=Math.round((endDate-now)/1000);
 		var ofd=parseInt(oft/3600/24);
 		var ofh=parseInt((oft%(3600*24))/3600);
+		var diff_hour = ofh;
 		var ofm=parseInt((oft%3600)/60);
 		var ofs=oft%60;
+		if (ofh < 10)
+			ofh = '0' + ofh.toString();
 		if (ofm < 10)
 			ofm = '0' + ofm.toString();
 		if (ofs < 10)
 			ofs = '0' + ofs.toString();
-		document.getElementById('timer').innerHTML=' ' + ofd + '  ' + ofh + ':' + ofm + ':' + ofs ;
-		document.getElementById('timer_hour').innerHTML=' ' + (ofd * 24 + ofd) + '';
+		document.getElementById('timer').innerHTML=' ' + ofd + 'd ' + ofh + ':' + ofm + ':' + ofs ;
+		document.getElementById('timer_hour').innerHTML=' ' + (ofd * 24 + diff_hour) + '';
 		document.getElementById('timer_second').innerHTML=' ' + oft + '';
 		if(ofs<0) {
 			document.getElementById('timer').innerHTML='倒计时结束!';
-			return;
 		};
+		
+		var date = new Date(); //日期对象 
+		var now = ""; 
+		var now_month = date.getMonth() + 1;
+		var now_day = date.getDate();
+		var now_hour = date.getHours();
+		var now_min = date.getMinutes();
+		var now_second = date.getSeconds();
+		if (now_month < 10)
+			now_month = "0" + now_month; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
+		if (now_day < 10)
+			now_day = '0' + now_day;
+		if (now_hour < 10)
+			now_hour = '0' + now_hour;
+		if (now_min < 10)
+			now_min = '0' + now_min;
+		if (now_second < 10)
+			now_second = '0' + now_second;
+		document.getElementById("time_now").innerHTML = date.getFullYear() + "-" + now_month + "-" + now_day + " " + now_hour + ":" + now_min + ":" + now_second;
+		
 		setTimeout('countDown()',1000);
 	};
 </script>
@@ -35,7 +57,7 @@
 		font-weight:800;
 		font-size:128px;
 	}
-	#timer_hour, #timer_second{
+	#timer_hour, #timer_second, #time_now{
 		font-size:24px;
 	}
 	body {
@@ -48,5 +70,6 @@
 <div id="timer"></div>
 <div id="timer_hour"></div>
 <div id="timer_second"></div>
+<div id="time_now"></div>
 </body>
 </html>
