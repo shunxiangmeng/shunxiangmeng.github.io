@@ -21,11 +21,14 @@
 		if (ofs < 10)
 			ofs = '0' + ofs.toString();
 		document.getElementById('timer').innerHTML=' ' + ofd + 'd ' + ofh + ':' + ofm + ':' + ofs ;
-		document.getElementById('timer_hour').innerHTML=' ' + (ofd * 24 + diff_hour) + '';
+		document.getElementById('timer_hour').innerHTML=' ' + (ofd * 24 + diff_hour) + ' hour';
 		document.getElementById('timer_second').innerHTML=' ' + oft + '';
 		if(ofs<0) {
 			document.getElementById('timer').innerHTML='倒计时结束!';
 		};
+		var mh =  32400 / (ofd * 24 + diff_hour);
+		var md =  32400 / (ofd * 24 + diff_hour) * 24;
+		document.getElementById('per_hour').innerHTML = mh.toFixed(3) + " " + md.toFixed(3);
 		
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -57,7 +60,7 @@
 		font-weight:800;
 		font-size:128px;
 	}
-	#timer_hour, #timer_second, #time_now{
+	#timer_hour, #timer_second, #per_hour, #time_now{
 		font-size:24px;
 	}
 	body {
@@ -69,6 +72,7 @@
 <body onload = "countDown()">
 <div id="timer"></div>
 <div id="timer_hour"></div>
+<div id="per_hour"></div>
 <div id="timer_second"></div>
 <div id="time_now"></div>
 </body>
