@@ -5,6 +5,7 @@
 <title>work</title>
 <script type="text/javascript" language="javascript">
 	var endDate=new Date(2021, 03, 01, 0, 0, 0);//年月日时分秒，月要减去1   04-01
+	var startDate=new Date(2018, 07, 10, 0, 0, 0);//年月日时分秒，月要减去1   08-10
 	function countDown()
 	{
 		var now=new Date();
@@ -26,10 +27,25 @@
 		if(ofs<0) {
 			document.getElementById('timer').innerHTML='倒计时结束!';
 		};
-		var mh =  32400 / (ofd * 24 + diff_hour);
-		var md =  32400 / (ofd * 24 + diff_hour) * 24;
-		document.getElementById('per_hour').innerHTML = mh.toFixed(3) + " " + md.toFixed(3);
-		
+
+		var diff = Math.round((now - startDate) / 1000);
+		var diff_d = parseInt(diff / 3600 / 24);
+		var diff_h = parseInt((diff % (3600*24)) / 3600);
+		var diff_m = parseInt((diff % 3600) / 60);
+		var diff_s = diff % 60;
+		if (diff_h < 10)
+			diff_h = '0' + diff_h;
+		if (diff_m < 10)
+			diff_m = '0' + diff_m;
+		if (diff_s < 10)
+			diff_s = '0' + diff_s;
+		document.getElementById('time_len').innerHTML='has ' + diff_d + '天 ' + diff_h + ':' + diff_m + ':' + diff_s;
+
+		var mh = 32400 / (ofd * 24 + diff_hour);
+		var md = 32400 / (ofd * 24 + diff_hour) * 24;
+		var mm = 32400 / (oft / 60);
+		document.getElementById('per_hour').innerHTML = mm.toFixed(5) + " " + mh.toFixed(3) + " " + md.toFixed(3);
+
 		var date = new Date(); //日期对象 
 		var now = ""; 
 		var now_month = date.getMonth() + 1;
@@ -63,6 +79,10 @@
 	#timer_hour, #timer_second, #per_hour, #time_now{
 		font-size:24px;
 	}
+	#time_len{
+		color: blue;
+		font-size:24px;
+	}
 	body {
 		margin: 10%;
 	}
@@ -71,9 +91,10 @@
 
 <body onload = "countDown()">
 <div id="timer"></div>
+<div id="time_len"></div>
 <div id="timer_hour"></div>
-<div id="per_hour"></div>
 <div id="timer_second"></div>
+<div id="per_hour"></div>
 <div id="time_now"></div>
 </body>
 </html>
