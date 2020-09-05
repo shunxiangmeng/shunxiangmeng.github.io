@@ -3,6 +3,12 @@
 <head>
 <meta charset='uft-8'>
 <title>work</title>
+<link rel="stylesheet" href="assistant/js/jquery-ui-1.11.4/jquery-ui.min.css">
+<script src="assistant/js/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+<script src="assistant/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="assistant/js/assistant.js"></script>
+<script src="assistant/js/temperature.js"></script>
+<script src="assistant/js/work.js"></script>
 <script type="text/javascript" language="javascript">
 	var endDate=new Date(2021, 03, 01, 0, 0, 0);//年月日时分秒，月要减去1   04-01
 	var startDate=new Date(2018, 07, 10, 0, 0, 0);//年月日时分秒，月要减去1   08-10
@@ -22,11 +28,9 @@
 		if (ofs < 10)
 			ofs = '0' + ofs.toString();
 		document.getElementById('timer').innerHTML=' ' + ofd + 'd ' + ofh + ':' + ofm + ':' + ofs ;
-		document.getElementById('timer_hour').innerHTML=' ' + (ofd * 24 + diff_hour) + ' hour';
-		document.getElementById('timer_second').innerHTML=' ' + oft + '';
-		if(ofs<0) {
-			document.getElementById('timer').innerHTML='倒计时结束!';
-		};
+		var left_hour = (ofd * 24 + diff_hour) + 'hour,';
+		var left_second = ' ' + oft + '';
+		document.getElementById('time_left').innerHTML = left_hour + left_second;
 
 		var diff = Math.round((now - startDate) / 1000);
 		var diff_d = parseInt(diff / 3600 / 24);
@@ -44,7 +48,7 @@
 		var mh = 32400 / (ofd * 24 + diff_hour);
 		var md = 32400 / (ofd * 24 + diff_hour) * 24;
 		var mm = 32400 / (oft / 60);
-		document.getElementById('per_hour').innerHTML = mm.toFixed(5) + " " + mh.toFixed(3) + " " + md.toFixed(3);
+		document.getElementById('per_hour').innerHTML = mm.toFixed(5) + " " + mh.toFixed(3) + " " + md.toFixed(2);
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -64,8 +68,11 @@
 		if (now_second < 10)
 			now_second = '0' + now_second;
 		document.getElementById("time_now").innerHTML = date.getFullYear() + "-" + now_month + "-" + now_day + " " + now_hour + ":" + now_min + ":" + now_second;
-		
 		setTimeout('countDown()',1000);
+	};
+	function work_start(){
+		countDown();
+		getAndDisplayWork();
 	};
 </script>
 <style type="text/css">
@@ -74,9 +81,9 @@
 		display: flex; 
 		justify-content: center;
 		font-weight:800;
-		font-size:128px;
+		font-size:120px;
 	}
-	#timer_hour, #timer_second, #per_hour, #time_now{
+	#time_left, #per_hour, #time_now{
 		font-size:24px;
 	}
 	#time_len{
@@ -86,15 +93,41 @@
 	body {
 		margin: 10%;
 	}
+	#progressbar{
+		height:20px;
+	}
+	.progress-label{
+		float:left;
+		margin-left:40%;
+		margin-top:2px;
+	}
 </style>
 </head>
 
-<body onload = "countDown()">
+<body onload = "work_start()">
 <div id="timer"></div>
 <div id="time_len"></div>
-<div id="timer_hour"></div>
+<div id="time_left"></div>
 <div id="timer_second"></div>
 <div id="per_hour"></div>
 <div id="time_now"></div>
+
+<div id="progressbar"><div class="progress-label">loading...</div></div>
+</div class="work_table">
+<table class="work_table">
+	<thead>
+		<th>index</th>
+		<th>name</th>
+		<th>describe</th>
+		<th>pageAll</th>
+		<th>pageNow</th>
+		<th>done</th>
+		<th>todo</th>
+		<th>percentage</th>
+	</thead>
+	<tbody id="learnItem">
+	</tbody>
+</table>
+</div>
 </body>
 </html>

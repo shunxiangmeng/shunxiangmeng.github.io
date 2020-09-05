@@ -57,13 +57,12 @@ function getinfo()
     http("GET", "https://kajchdqo.api.lncld.net/1.1/classes/workTime", "", "",function(data){
     //http("GET", "https://kajchdqo.engine.lncld.net/1.1/functions/getWorkTime", "", "",function(data){
     
-		console.log(data);
+		//console.log(data);
 		results = data.results;
 		var tbody = $("#workTimeTbody");
 		tbody.empty();
 		var table = document.createElement('table');
 		var tr = document.createElement('tr');
-		var pool = document.createDocumentFragment();
 
 		var tableH = ["index", "date", "on", "off", "time"];
 		for(var i=0;i<tableH.length;i++){
@@ -74,7 +73,6 @@ function getinfo()
 		table.appendChild(tr);
 
 		var tbodyData = "";
-		//for(var i = 0; i < results.length; i++)
     for (var i = results.length-1; i >= 0; i--)
     {
 		    tbodyData += "<tr>";
@@ -321,11 +319,12 @@ function getWorkTimeData()
 
     var tbodyData = "";
     //console.log(results.length);
-    //for(var i = 0; i < results.length; i++)
     var avg = [];
     var avrArrayData = [];
     var count = 0;
-    for (var i = 0; i < results.length; i++)
+    var displayItemMax = 50;
+    var startIndex = results.length > displayItemMax ? results.length - displayItemMax : results.length ;
+    for (var i = startIndex; i < results.length; i++)
     {
       if(results[i].off && results[i].on){
         var time = (new Date(results[i].off).getTime() - new Date(results[i].on).getTime())/1000/60/60;
@@ -340,7 +339,7 @@ function getWorkTimeData()
       }
     }
 
-    for (var i = results.length-1; i >= 0; i--)
+    for (var i = results.length - 1; i >= startIndex; i--)
     {
       tbodyData += "<tr>";
       tbodyData += "<td>" + (i) + "</td>";
@@ -368,7 +367,7 @@ function getWorkTimeData()
       if(results[i].off && results[i].on){
         var time = (new Date(results[i].off).getTime() - new Date(results[i].on).getTime())/1000/60/60;
         tbodyData += "<td>" + time.toFixed(2) + "</td>";
-        tbodyData += "<td>" + avg[i].toFixed(2) + "</td>";
+        tbodyData += "<td>" + avg[i-startIndex].toFixed(2) + "</td>";
       }else{
         tbodyData += "<td></td>";
       }
@@ -376,9 +375,7 @@ function getWorkTimeData()
       tbodyData += "</tr>";
     }
     tbody.append(tbodyData);
-
     displaymap(data, avg);
-
   });
 }
 //画曲线图
@@ -634,7 +631,7 @@ var yAxis = {
       title: {
          text: '打卡时间'
       },
-      tickPositions: [0, 5, 10, 15, 20]
+      tickPositions: [0, 5, 10, 15, 20, 25, 30]
    };
    var tooltip = {
       headerFormat: '<b>打卡</b><br>',
@@ -672,7 +669,7 @@ var yAxis = {
       title: {
          text: '下班打卡次数'
       },
-      tickPositions: [0, 5, 10, 15, 20]
+      tickPositions: [0, 5, 10, 15, 20, 25, 30]
    };
    var tooltip = {
       headerFormat: '<b>打卡</b><br>',
