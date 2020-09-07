@@ -48,7 +48,8 @@
 		var mh = 32400 / (ofd * 24 + diff_hour);
 		var md = 32400 / (ofd * 24 + diff_hour) * 24;
 		var mm = 32400 / (oft / 60);
-		document.getElementById('per_hour').innerHTML = mm.toFixed(5) + " " + mh.toFixed(3) + " " + md.toFixed(2);
+		var mM = md * 30;
+		document.getElementById('per_hour').innerHTML = mm.toFixed(6) + " " + mh.toFixed(3) + " " + md.toFixed(2) + " " + mM.toFixed(2);
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -119,10 +120,10 @@
 </div class="work_table">
 <table class="work_table">
 	<thead>
-		<th>index</th>
+		<th>idx</th>
 		<th>name</th>
-		<th>pageAll</th>
-		<th>pageNow</th>
+		<th>pAll</th>
+		<th>pNow</th>
 		<th>done</th>
 		<th>todo</th>
 		<th>percentage</th>
