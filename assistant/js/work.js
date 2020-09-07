@@ -19,7 +19,6 @@ function getAndDisplayWork()
             tbodyData += "<tr>";
             tbodyData += "<td>" + (i) + "</td>";
             tbodyData += "<td>" + results[i].a_name + "</td>";
-            tbodyData += "<td>" + results[i].c_descriptor + "</td>";
             tbodyData += "<td>" + results[i].d_pageAll + "</td>";
             tbodyData += "<td>" + results[i].e_pageNow + "</td>";
             tbodyData += "<td>" + results[i].x_done + "</td>";
