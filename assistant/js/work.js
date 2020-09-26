@@ -4,10 +4,25 @@ function getAndDisplayWork()
     http("GET", "https://kajchdqo.engine.lncld.net/1.1/classes/learn", "", "", function(data){
         results = data.results;
         //console.log(results);
+        for (var i = 0; i < results.length; i++){
+            var updateTimeStr = results[i].updatedAt.replace(/T/i," ").replace(/Z/i,"");
+            var timestamp = new Date(Date.parse(updateTimeStr)).getTime();
+            results[i].timestamp = timestamp;
+        }
+        for (var i = 0; i < results.length; i++){
+            for (var j = i + 1; j < results.length; j++){
+                if (results[i].timestamp < results[j].timestamp){
+                    var tmp = results[j];
+                    results[j] = results[i];
+                    results[i] = tmp;
+                }
+            }
+        }
+        //console.log(results);
         var tbody = $("#learnItem");
         tbody.empty();
         var percentage = 0;
-        for (var i = results.length - 1; i >= 0; i--)
+        for (var i = 0; i < results.length; i++)
         {
             var percent = results[i].z_percentage;
             if (results[i].b_isBook){
@@ -17,7 +32,7 @@ function getAndDisplayWork()
             }
             var tbodyData = "";
             tbodyData += "<tr>";
-            tbodyData += "<td>" + (i) + "</td>";
+            tbodyData += "<td>" + (i + 1) + "</td>";
             tbodyData += "<td>" + results[i].a_name + "</td>";
             tbodyData += "<td>" + results[i].d_pageAll + "</td>";
             tbodyData += "<td>" + results[i].e_pageNow + "</td>";
