@@ -28,9 +28,9 @@
 		if (ofs < 10)
 			ofs = '0' + ofs.toString();
 		document.getElementById('timer').innerHTML=' ' + ofd + 'd ' + ofh + ':' + ofm + ':' + ofs ;
-		var left_hour = (ofd * 24 + diff_hour) + 'hour,';
-		var left_second = ' ' + oft + '';
-		document.getElementById('time_left').innerHTML = left_hour + left_second;
+		var left_hour = (ofd * 24 + diff_hour) + 'h ';
+		var left_second = ' ' + oft + 's ';
+		var letftime = left_second + left_hour;
 
 		var diff = Math.round((now - startDate) / 1000);
 		var diff_d = parseInt(diff / 3600 / 24);
@@ -43,13 +43,13 @@
 			diff_m = '0' + diff_m;
 		if (diff_s < 10)
 			diff_s = '0' + diff_s;
-		document.getElementById('time_len').innerHTML='has ' + diff_d + '天 ' + diff_h + ':' + diff_m + ':' + diff_s;
+		document.getElementById('time_len').innerHTML=diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s;
 
 		var mh = 32400 / (ofd * 24 + diff_hour);
 		var md = 32400 / (ofd * 24 + diff_hour) * 24;
 		var mm = 32400 / (oft / 60);
 		var mM = md * 30;
-		document.getElementById('per_hour').innerHTML = mm.toFixed(6) + " " + mh.toFixed(3) + " " + md.toFixed(2) + " " + mM.toFixed(2);
+		document.getElementById('per_hour').innerHTML = letftime + mm.toFixed(7) + "/m " + mh.toFixed(3) + "/h " + md.toFixed(2) + "/d  " + mM.toFixed(2) + "";
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -85,7 +85,7 @@
 		font-weight:800;
 		font-size:120px;
 	}
-	#time_left, #per_hour, #time_now{
+	#per_hour, #time_now{
 		font-size:24px;
 	}
 	#time_len{
@@ -118,7 +118,6 @@
 <body onload = "work_start()">
 <div id="timer"></div>
 <div id="time_len"></div>
-<div id="time_left"></div>
 <div id="timer_second"></div>
 <div id="per_hour"></div>
 <div id="time_now"></div>
