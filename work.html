@@ -15,7 +15,7 @@
 	function countDown()
 	{
 		var now=new Date();
-		var oft=Math.round((now - endDate)/1000);
+		var oft=Math.round((now - startDate)/1000);
 		var ofd=parseInt(oft/3600/24);
 		var ofh=parseInt((oft%(3600*24))/3600);
 		var diff_hour = ofh;
