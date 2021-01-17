@@ -10,28 +10,9 @@
 <script src="assistant/js/temperature.js"></script>
 <script src="assistant/js/work.js"></script>
 <script type="text/javascript" language="javascript">
-	var endDate=new Date(2021, 03, 01, 0, 0, 0);//年月日时分秒，月要减去1   04-01
-	var startDate=new Date(2021, 01, 01, 0, 0, 0);//年月日时分秒，月要减去1   08-10
-	function countDown()
-	{
-		var now=new Date();
-		var oft=Math.round((now - startDate)/1000);
-		var ofd=parseInt(oft/3600/24);
-		var ofh=parseInt((oft%(3600*24))/3600);
-		var diff_hour = ofh;
-		var ofm=parseInt((oft%3600)/60);
-		var ofs=oft%60;
-		if (ofh < 10)
-			ofh = '0' + ofh.toString();
-		if (ofm < 10)
-			ofm = '0' + ofm.toString();
-		if (ofs < 10)
-			ofs = '0' + ofs.toString();
-		document.getElementById('timer').innerHTML=' ' + ofd + 'd ' + ofh + ':' + ofm + ':' + ofs ;
-		var left_hour = (ofd * 24 + diff_hour) + 'h ';
-		var left_second = ' ' + oft + 's ';
-		var letftime = left_second + left_hour;
-
+	var startDate=new Date('2021/01/01 00:00:00');//年月日时分秒，月要减去1   08-10
+	function countDown(){
+		var now = new Date();
 		var diff = Math.round((now - startDate) / 1000);
 		var diff_d = parseInt(diff / 3600 / 24);
 		var diff_h = parseInt((diff % (3600*24)) / 3600);
@@ -43,13 +24,8 @@
 			diff_m = '0' + diff_m;
 		if (diff_s < 10)
 			diff_s = '0' + diff_s;
-		document.getElementById('time_len').innerHTML=diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s;
-
-		var mh = 32400 / (ofd * 24 + diff_hour);
-		var md = 32400 / (ofd * 24 + diff_hour) * 24;
-		var mm = 32400 / (oft / 60);
-		var mM = md * 30;
-		document.getElementById('per_hour').innerHTML = letftime + mm.toFixed(7) + "/m " + mh.toFixed(3) + "/h " + md.toFixed(2) + "/d  " + mM.toFixed(2) + "";
+		var years = diff_d / 365;
+		document.getElementById('time_len').innerHTML=diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s + ' - ' + years.toFixed(3)+'y';
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -83,13 +59,13 @@
 		display: flex; 
 		justify-content: center;
 		font-weight:600;
-		font-size:120px;
+		font-size:100px;
 	}
 	#per_hour, #time_now{
 		font-size:24px;
 	}
 	#time_len{
-		color: blue;
+		color: red;
 		font-size:24px;
 	}
 	body {
@@ -116,10 +92,8 @@
 </head>
 
 <body onload = "work_start()">
-<div id="timer"></div>
 <div id="time_len"></div>
 <div id="timer_second"></div>
-<div id="per_hour"></div>
 <div id="time_now"></div>
 
 <div id="progressbar"><div class="progress-label">loading...</div></div>
