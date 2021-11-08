@@ -10,10 +10,10 @@
 <script src="assistant/js/temperature.js"></script>
 <script src="assistant/js/work.js"></script>
 <script type="text/javascript" language="javascript">
-	var startDate=new Date('2021/01/01 00:00:00');//年月日时分秒，月要减去1   08-10
+	var startDate=new Date('2022/05/31 00:00:00');//年月日时分秒，月要减去1   08-10
 	function countDown(){
 		var now = new Date();
-		var diff = Math.round((now - startDate) / 1000);
+		var diff = Math.round((startDate - now) / 1000);
 		var diff_d = parseInt(diff / 3600 / 24);
 		var diff_h = parseInt((diff % (3600*24)) / 3600);
 		var diff_m = parseInt((diff % 3600) / 60);
@@ -25,7 +25,9 @@
 		if (diff_s < 10)
 			diff_s = '0' + diff_s;
 		var years = diff_d / 365;
-		document.getElementById('time_len').innerHTML=diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s + ' - ' + years.toFixed(3)+'y';
+		var preday = 45000 / diff_d;
+		var prehour = 45000 / parseInt(diff / 3600);
+		document.getElementById('time_len').innerHTML='left: ' + diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s + ' -- ' + prehour.toFixed(2)+'/h' + ' ' + preday.toFixed(1)+'/d';
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
