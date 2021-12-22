@@ -10,10 +10,11 @@
 <script src="assistant/js/temperature.js"></script>
 <script src="assistant/js/work.js"></script>
 <script type="text/javascript" language="javascript">
-	var startDate=new Date('2022/05/31 00:00:00');//年月日时分秒，月要减去1   08-10
+	var startDate=new Date('2020/12/24 00:00:00');//年月日时分秒，月要减去1
+	var stopDate=new Date('2022/05/31 00:00:00');//年月日时分秒，月要减去1   08-10
 	function countDown(){
 		var now = new Date();
-		var diff = Math.round((startDate - now) / 1000);
+		var diff = Math.round((stopDate - now) / 1000);
 		var diff_d = parseInt(diff / 3600 / 24);
 		var diff_h = parseInt((diff % (3600*24)) / 3600);
 		var diff_m = parseInt((diff % 3600) / 60);
@@ -27,7 +28,7 @@
 		var years = diff_d / 365;
 		var preday = 45000 / diff_d;
 		var prehour = 45000 / parseInt(diff / 3600);
-		document.getElementById('time_len').innerHTML='left: ' + diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s + ' -- ' + prehour.toFixed(2)+'/h' + ' ' + preday.toFixed(1)+'/d';
+		document.getElementById('time_left').innerHTML='left: ' + diff_d + 'd ' + diff_h + ':' + diff_m + ':' + diff_s + ' -- ' + prehour.toFixed(2)+'/h' + ' ' + preday.toFixed(1)+'/d';
 
 		var date = new Date(); //日期对象 
 		var now = ""; 
@@ -47,6 +48,34 @@
 		if (now_second < 10)
 			now_second = '0' + now_second;
 		document.getElementById("time_now").innerHTML = date.getFullYear() + "-" + now_month + "-" + now_day + " " + now_hour + ":" + now_min + ":" + now_second;
+
+		var b = false;
+		var delta_day = date.getDay() - startDate.getDay();
+		if (delta_day < 0) {
+			delta_day = delta_day + 30;
+			b = true;
+		} else {
+			b = false;
+		}
+		var delta_month = date.getMonth() - startDate.getMonth();
+		if (b) {
+			delta_month = delta_month - 1;
+		}
+		if (delta_month < 0) {
+			delta_month = delta_month + 12;
+			b = true;
+		} else {
+			b = false;
+		}
+		var delta_year = date.getFullYear() - startDate.getFullYear();
+		if (b) {
+			delta_year = delta_year - 1;
+		}
+		if (delta_year < 0) {
+			delta_year = 0;
+		}
+		document.getElementById("time_sum").innerHTML = delta_year + "年" + delta_month + "月" + delta_day + "天";
+
 		setTimeout('countDown()',1000);
 	};
 	function work_start(){
@@ -94,10 +123,9 @@
 </head>
 
 <body onload = "work_start()">
-<div id="time_len"></div>
-<div id="timer_second"></div>
+<div id="time_left"></div>
+<div id="time_sum"></div>	
 <div id="time_now"></div>
-
 <div id="progressbar"><div class="progress-label">loading...</div></div>
 </div class="work_table">
 <table class="work_table">
