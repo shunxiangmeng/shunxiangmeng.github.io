@@ -50,7 +50,7 @@
 		document.getElementById("time_now").innerHTML = date.getFullYear() + "-" + now_month + "-" + now_day + " " + now_hour + ":" + now_min + ":" + now_second;
 
 		var b = false;
-		var delta_day = date.getDay() - startDate.getDay();
+		var delta_day = date.getDate() - startDate.getDate() - 1;
 		if (delta_day < 0) {
 			delta_day = delta_day + 30;
 			b = true;
